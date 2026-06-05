@@ -1,3 +1,5 @@
+//This program was copied onto the jetson and runs on startup to allow for the GUI to connect to display a Jetson terminal
+
 const express = require("express");
 const http = require("http");
 const path = require('path');
