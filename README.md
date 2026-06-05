@@ -27,6 +27,7 @@ Refer to Aditya for any issues with the map
 
 The base station has a launch script that does all of this. 
 ./startGUI.sh
+It also has a launchable app on the side bar that runs the shell file.
 
 ## Frontend
 
