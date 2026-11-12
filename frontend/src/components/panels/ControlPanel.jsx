@@ -170,8 +170,10 @@ const ControlPanel = ({ onAction }) => {
   const [activeLaunchButton, setActiveLaunchButton] = useState(null);
   
   /* ---------- ROS DATA ---------- */
-  const battery = useRosTopic('/voltage', 'std_msgs/Float32');
-  const ampere = useRosTopic('/ampere', 'std_msgs/Float32');
+  // Battery Data
+  const batteryData = useRosTopic('/battery_telemetry', 'std_msgs/Float32MultiArray');
+
+  // Navigation Data
   const x = useRosTopic('/xcoordinates', 'std_msgs/Float32');
   const y = useRosTopic('/ycoordinates', 'std_msgs/Float32');
   const velX = useRosTopic('/xvelocity', 'std_msgs/Float32');
@@ -298,14 +300,20 @@ const ControlPanel = ({ onAction }) => {
             <div className="space-y-2 mb-6">
               <Metric
                 label="AMPERE"
-                value={`${ampere?.data?.toFixed(1) || 0} A`}
-                percent={Math.min((ampere?.data || 0) * 10, 100)}
+                value={`${batteryData?.data?.[1]?.toFixed(1) || 0} A`}
+                percent={Math.min((batteryData?.data?.[1] || 0) * 10, 100)}
                 color="green"
               />
               <Metric
-                label="BATTERY"
-                value={`${battery?.data?.toFixed(1) || 0} V`}
-                percent={Math.min((battery?.data || 0) * 10, 100)}
+                label="VOLTAGE"
+                value={`${batteryData?.data?.[0]?.toFixed(1) || 0} V`}
+                percent={Math.min((batteryData?.data?.[0] || 0) * 10, 100)}
+                color="red"
+              />
+              <Metric
+                label="BATTERY PERCENTAGE"
+                value={`${batteryData?.data?.[2]?.toFixed(1) || 0} %`}
+                percent={Math.min((batteryData?.data?.[2] || 0) * 10, 100)}
                 color="yellow"
               />
             </div>
